@@ -33,6 +33,24 @@ public class Compilador {
         }
 
         public Integer parseExpression() throws Exception {
+            int res = parseTerm();
+            while (tokenizer.getNext().getValue().equals(tokenizer.getAlphabet().TT_PLUS) ||
+                    tokenizer.getNext().getValue().equals(tokenizer.getAlphabet().TT_MINUS)) {
+                if (tokenizer.getNext().getValue().equals(tokenizer.getAlphabet().TT_PLUS)) {
+                    tokenizer.selectNext();
+                    res += parseTerm();
+                }
+
+                if (tokenizer.getNext().getValue().equals(tokenizer.getAlphabet().TT_MINUS)) {
+                    tokenizer.selectNext();
+                    res -= parseTerm();
+                }
+            }
+
+            return res;
+        }
+
+        public Integer parseTerm() throws Exception {
             int res = 0;
 
             if (tokenizer.checkIfTokenIsNumber(tokenizer.getNext())) {
@@ -40,23 +58,23 @@ public class Compilador {
 
                 tokenizer.selectNext();
                 Token t = tokenizer.getNext();
-                while (t.getValue().equals(tokenizer.getAlphabet().TT_PLUS) ||
-                        t.getValue().equals(tokenizer.getAlphabet().TT_MINUS)) {
-                    if (t.getValue().equals(tokenizer.getAlphabet().TT_PLUS)) {
+                while (t.getValue().equals(tokenizer.getAlphabet().TT_MULT) ||
+                        t.getValue().equals(tokenizer.getAlphabet().TT_DIV)) {
+                    if (t.getValue().equals(tokenizer.getAlphabet().TT_MULT)) {
                         tokenizer.selectNext();
                         t = tokenizer.getNext();
                         if (t.getType().equals(tokenizer.getAlphabet().TT_INT)) {
-                            res += Integer.parseInt(t.getValue());
+                            res *= Integer.parseInt(t.getValue());
                         } else {
                             throw new Exception();
                         }
                     }
 
-                    if (t.getValue().equals(tokenizer.getAlphabet().TT_MINUS)) {
+                    if (t.getValue().equals(tokenizer.getAlphabet().TT_DIV)) {
                         tokenizer.selectNext();
                         t = tokenizer.getNext();
                         if (t.getType().equals(tokenizer.getAlphabet().TT_INT)) {
-                            res -= Integer.parseInt(t.getValue());
+                            res /= Integer.parseInt(t.getValue());
                         } else {
                             throw new Exception();
                         }
@@ -82,6 +100,25 @@ public class Compilador {
             }
 
             System.out.println(total);
+        }
+    }
+
+    class PrePro {
+        public String filter(String sourceCode) {
+            int pos = -1;
+            for (int i = 0; i < sourceCode.length(); i++) {
+                if (sourceCode.charAt(i) == '#') {
+                    if (pos == -1) {
+                        pos = i;
+                    }
+                }
+            }
+
+            if (pos == -1) {
+                return sourceCode;
+            } else {
+                return sourceCode.substring(0, pos);
+            }
         }
     }
 
@@ -116,6 +153,14 @@ public class Compilador {
                     return;
                 } else if (currentChar == alphabet.TT_MINUS.charAt(0)) {
                     next = new Token("TT_MINUS", alphabet.TT_MINUS);
+                    advance();
+                    return;
+                } else if (currentChar == alphabet.TT_MULT.charAt(0)) {
+                    next = new Token("TT_MULT", alphabet.TT_MULT);
+                    advance();
+                    return;
+                } else if (currentChar == alphabet.TT_DIV.charAt(0)) {
+                    next = new Token("TT_DIV", alphabet.TT_DIV);
                     advance();
                     return;
                 } else {
@@ -173,6 +218,8 @@ public class Compilador {
         public String TT_PLUS;
         public String TT_MINUS;
         public String TT_INT;
+        public String TT_MULT;
+        public String TT_DIV;
 
         public Alphabet() {
             initAlphabet();
@@ -182,12 +229,15 @@ public class Compilador {
             TT_PLUS = "+";
             TT_MINUS = "-";
             TT_INT = "TT_INT";
+            TT_MULT = "*";
+            TT_DIV = "/";
         }
     }
 
     public static void main(String[] args) throws Exception {
         Compilador c = new Compilador();
         Compilador.Parser p = c.new Parser();
-        p.run(args[0]);
+        Compilador.PrePro preP = c.new PrePro();
+        p.run(preP.filter(args[0]));
     }
 }
