@@ -104,7 +104,7 @@ public class Compilador {
                 if (currentChar == ' ') {
                     Token lastToken = getNext();
                     advance();
-                    if (lastToken.getType().equals(alphabet.TT_INT) && next.getType().equals(alphabet.TT_INT)) {
+                    if (lastToken.getType().equals(alphabet.TT_INT) && Character.isDigit(currentChar)) {
                         throw new Exception();
                     }
                 } else if (Character.isDigit(currentChar)) {
