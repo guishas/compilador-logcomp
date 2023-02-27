@@ -99,10 +99,14 @@ public class Compilador {
             this.currentChar = source.charAt(position);
         }
 
-        public void selectNext() {
+        public void selectNext() throws Exception {
             while (currentChar != '"') {
                 if (currentChar == ' ') {
+                    Token lastToken = getNext();
                     advance();
+                    if (lastToken.getType().equals(alphabet.TT_INT) && next.getType().equals(alphabet.TT_INT)) {
+                        throw new Exception();
+                    }
                 } else if (Character.isDigit(currentChar)) {
                     makeNumber();
                     return;
@@ -114,6 +118,8 @@ public class Compilador {
                     next = new Token("TT_MINUS", alphabet.TT_MINUS);
                     advance();
                     return;
+                } else {
+                    throw new Exception();
                 }
             }
         }
