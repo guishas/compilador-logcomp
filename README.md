@@ -9,3 +9,7 @@ Compilar usando o javac 15.0.2 (https://www.oracle.com/java/technologies/javase/
 Rodar usando
 
 `java exemplo <args>`
+
+### EBNF
+
+`EXPRESSION = NUMBER, {("+", "-", "*", "/"), NUMBER};`
