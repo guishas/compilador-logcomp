@@ -16,4 +16,4 @@ Rodar usando
 
 ### DIAGRAMA
 
-<img src="diagrama.png" width="300" height="200">
+<img src="diagrama.png" width="500" height="600">
