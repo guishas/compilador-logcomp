@@ -67,13 +67,15 @@ public class Compilador {
                     tokenizer.selectNext();
 
                     if (tokenizer.getNext().getValue().equals(tokenizer.getAlphabet().TT_LEFT_PAR)) {
-                        res = (int) Math.ceil((double) res / parseFactor());
+                        res = (int) Math.floor((double) res / parseFactor());
                     } else if (tokenizer.getNext().getType().equals(tokenizer.getAlphabet().TT_INT)) {
-                        res = (int) Math.ceil((double) res / Integer.parseInt(tokenizer.getNext().getValue()));
+                        res = (int) Math.floor((double) res / Integer.parseInt(tokenizer.getNext().getValue()));
                     } else {
                         throw new Exception();
                     }
                 }
+
+                tokenizer.selectNext();
             }
 
             return res;
