@@ -85,7 +85,6 @@ public class Compilador {
 
         public Integer parseFactor() throws Exception {
             int res = 0;
-            System.out.println(tokenizer.getNext().toString());
             if (tokenizer.checkIfTokenIsNumber(tokenizer.getNext())) {
                 res = Integer.parseInt(tokenizer.getNext().getValue());
                 tokenizer.selectNext();
