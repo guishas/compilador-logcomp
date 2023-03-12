@@ -57,6 +57,7 @@ public class Compilador {
 
                     if (tokenizer.getNext().getValue().equals(tokenizer.getAlphabet().TT_LEFT_PAR)) {
                         res *= parseFactor();
+                        continue;
                     } else if (tokenizer.getNext().getType().equals(tokenizer.getAlphabet().TT_INT)) {
                         res *= Integer.parseInt(tokenizer.getNext().getValue());
                     } else {
@@ -68,6 +69,7 @@ public class Compilador {
 
                     if (tokenizer.getNext().getValue().equals(tokenizer.getAlphabet().TT_LEFT_PAR)) {
                         res = (int) Math.floor((double) res / parseFactor());
+                        continue;
                     } else if (tokenizer.getNext().getType().equals(tokenizer.getAlphabet().TT_INT)) {
                         res = (int) Math.floor((double) res / Integer.parseInt(tokenizer.getNext().getValue()));
                     } else {
@@ -83,11 +85,12 @@ public class Compilador {
 
         public Integer parseFactor() throws Exception {
             int res = 0;
+            System.out.println(tokenizer.getNext().toString());
             if (tokenizer.checkIfTokenIsNumber(tokenizer.getNext())) {
                 res = Integer.parseInt(tokenizer.getNext().getValue());
                 tokenizer.selectNext();
                 return res;
-            } if (tokenizer.getNext().getValue().equals(tokenizer.getAlphabet().TT_PLUS)) {
+            } else if (tokenizer.getNext().getValue().equals(tokenizer.getAlphabet().TT_PLUS)) {
                 tokenizer.selectNext();
                 return parseTerm();
             } else if (tokenizer.getNext().getValue().equals(tokenizer.getAlphabet().TT_MINUS)) {
@@ -193,6 +196,8 @@ public class Compilador {
                     throw new Exception();
                 }
             }
+
+            next = new Token("EOF", "EOF");
         }
 
         public String getSource() {
