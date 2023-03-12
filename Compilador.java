@@ -266,6 +266,6 @@ public class Compilador {
         Compilador c = new Compilador();
         Compilador.Parser p = c.new Parser();
         Compilador.PrePro preP = c.new PrePro();
-        p.run(preP.filter("3--2"));
+        p.run(preP.filter(args[0]));
     }
 }
