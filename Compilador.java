@@ -39,15 +39,12 @@ public class Compilador {
                 if (tokenizer.getNext().getValue().equals(tokenizer.getAlphabet().TT_PLUS)) {
                     tokenizer.selectNext();
                     res += parseTerm();
-                    System.out.println("RES += TERM: " + res);
                 } else {
                     tokenizer.selectNext();
                     res -= parseTerm();
-                    System.out.println("RES -= TERM: " + res);
                 }
             }
 
-            System.out.println("RETURN EXPRESSION:" + res);
             return res;
         }
 
@@ -60,10 +57,8 @@ public class Compilador {
 
                     if (tokenizer.getNext().getValue().equals(tokenizer.getAlphabet().TT_LEFT_PAR)) {
                         res *= parseFactor();
-                        System.out.println("RES *= FACTOR: "+ res);
                     } else if (tokenizer.getNext().getType().equals(tokenizer.getAlphabet().TT_INT)) {
                         res *= Integer.parseInt(tokenizer.getNext().getValue());
-                        System.out.println("RES *= INT: " + res);
                     } else {
                         throw new Exception();
                     }
@@ -73,17 +68,14 @@ public class Compilador {
 
                     if (tokenizer.getNext().getValue().equals(tokenizer.getAlphabet().TT_LEFT_PAR)) {
                         res = (int) Math.ceil((double) res / parseFactor());
-                        System.out.println("RES /= FACTOR: " + res);
                     } else if (tokenizer.getNext().getType().equals(tokenizer.getAlphabet().TT_INT)) {
                         res = (int) Math.ceil((double) res / Integer.parseInt(tokenizer.getNext().getValue()));
-                        System.out.println("RES /= INT: " + res);
                     } else {
                         throw new Exception();
                     }
                 }
             }
 
-            System.out.println("RETURN TERM: " + res);
             return res;
         }
 
@@ -92,7 +84,6 @@ public class Compilador {
             if (tokenizer.checkIfTokenIsNumber(tokenizer.getNext())) {
                 res = Integer.parseInt(tokenizer.getNext().getValue());
                 tokenizer.selectNext();
-                System.out.println("RES = INT: " + res);
                 return res;
             } if (tokenizer.getNext().getValue().equals(tokenizer.getAlphabet().TT_PLUS)) {
                 tokenizer.selectNext();
@@ -103,11 +94,9 @@ public class Compilador {
             } else if (tokenizer.getNext().getValue().equals(tokenizer.getAlphabet().TT_LEFT_PAR)) {
                 tokenizer.selectNext();
                 res = parseExpression();
-                System.out.println("RES = EXPRESSION: " + res);
 
                 if (tokenizer.getNext().getValue().equals(tokenizer.getAlphabet().TT_RIGHT_PAR)) {
                     tokenizer.selectNext();
-                    System.out.println("RES IF ): " + res);
                     return res;
                 } else {
                     throw new Exception();
