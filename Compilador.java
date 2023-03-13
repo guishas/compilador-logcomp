@@ -45,6 +45,10 @@ public class Compilador {
                 }
             }
 
+            if (tokenizer.getNext().getValue().equals(tokenizer.getAlphabet().TT_RIGHT_PAR)) {
+                throw new Exception();
+            }
+
             return res;
         }
 
@@ -94,7 +98,7 @@ public class Compilador {
                 return parseTerm();
             } else if (tokenizer.getNext().getValue().equals(tokenizer.getAlphabet().TT_MINUS)) {
                 tokenizer.selectNext();
-                return parseTerm();
+                return -parseTerm();
             } else if (tokenizer.getNext().getValue().equals(tokenizer.getAlphabet().TT_LEFT_PAR)) {
                 tokenizer.selectNext();
                 res = parseExpression();
