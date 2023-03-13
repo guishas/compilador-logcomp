@@ -45,10 +45,6 @@ public class Compilador {
                 }
             }
 
-            if (tokenizer.getNext().getValue().equals(tokenizer.getAlphabet().TT_RIGHT_PAR)) {
-                throw new Exception();
-            }
-
             return res;
         }
 
@@ -121,6 +117,9 @@ public class Compilador {
             while (tokenizer.getCurrentChar() != '"') {
                 tokenizer.selectNext();
                 total = parseExpression();
+                if (tokenizer.getNext().getValue().equals(tokenizer.getAlphabet().TT_RIGHT_PAR)) {
+                    throw new Exception();
+                }
             }
 
             System.out.println(total);
