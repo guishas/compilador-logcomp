@@ -13,7 +13,9 @@ Rodar usando
 ### EBNF
 
 `EXPRESSION = TERM, {("+" | "-"), TERM};`
+
 `TERM = FACTOR, {("*" | "/"), FACTOR};`
+
 `FACTOR = ("+" | "-") FACTOR | "(" EXPRESSION ")" | number;`
 
 
