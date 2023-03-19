@@ -18,6 +18,13 @@ public class Tokenizer {
 
         while (source.charAt(position) == ' ') {
             position++;
+
+            if (source.charAt(position) != ' ') {
+                Token lastToken = getNext();
+                if (lastToken.getType().equals("TT_INT") && Character.isDigit(source.charAt(position))) {
+                    throw new Exception("Whitespace between digits!");
+                }
+            }
         }
 
         if (Character.isDigit(source.charAt(position))) {
