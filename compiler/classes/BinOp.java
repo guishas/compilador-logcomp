@@ -9,7 +9,7 @@ public class BinOp extends Node {
     }
 
     @Override
-    public int Evaluate() {
+    public int Evaluate() throws Exception {
         if (value.equals("*")) {
             return children[0].Evaluate() * children[1].Evaluate();
         } else if (value.equals("/")) {

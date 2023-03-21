@@ -12,5 +12,5 @@ public abstract class Node {
         return value;
     }
 
-    public abstract int Evaluate();
+    public abstract int Evaluate() throws Exception;
 }

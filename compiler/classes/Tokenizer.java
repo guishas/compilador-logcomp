@@ -1,13 +1,17 @@
 package compiler.classes;
 
+import java.util.Arrays;
+
 public class Tokenizer {
     private final String source;
     private Integer position;
     private Token next;
+    private final String[] reservedWords;
 
     public Tokenizer(String source) {
         this.source = source;
         this.position = 0;
+        this.reservedWords = new String[]{"println"};
     }
 
     public void selectNext() throws Exception {
@@ -47,6 +51,14 @@ public class Tokenizer {
         } else if (source.charAt(position) == ')') {
             next = new Token("TT_RIGHT_PAR", ")");
             position++;
+        } else if (source.charAt(position) == '=') {
+            next = new Token("TT_EQUALS", "=");
+            position++;
+        } else if (source.charAt(position) == 'Ë') {
+            next = new Token("TT_ENDLINE", "\\n");
+            position++;
+        } else if (Character.isLetter(source.charAt(position))) {
+            makeWord();
         } else {
             throw new Exception("Invalid character!");
         }
@@ -65,5 +77,33 @@ public class Tokenizer {
         }
 
         next = new Token("TT_INT", num.toString());
+    }
+
+    public void makeWord() throws Exception {
+        StringBuilder word = new StringBuilder();
+
+        while (position < source.length() && String.valueOf(source.charAt(position)).matches("[a-zA-Z0-9_]+")) {
+            word.append(source.charAt(position));
+            position++;
+        }
+
+        if (Arrays.asList(reservedWords).contains(word.toString())) {
+            String reserved = "";
+            for (String reservedWord : reservedWords) {
+                if (reservedWord.equals(word.toString())) {
+                    reserved = reservedWord;
+                }
+            }
+
+            next = new Token("TT_" + reserved.toUpperCase(), reserved);
+        } else {
+            if (Character.isDigit(word.toString().charAt(0))) {
+                throw new Exception("Invalid character!");
+            } else if (!word.toString().matches("[a-zA-Z0-9_]+")) {
+                throw new Exception("Invalid character!");
+            } else {
+                next = new Token("TT_IDENTIFIER", word.toString());
+            }
+        }
     }
 }

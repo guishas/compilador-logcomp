@@ -2,12 +2,22 @@ package compiler.classes;
 
 public class PrePro {
     public String filter(String sourceCode) {
-        int pos = sourceCode.indexOf("#");
+        StringBuilder output = new StringBuilder();
+        boolean ignoreMode = false;
 
-        if (pos == -1) {
-            return sourceCode.trim();
+        for (int i = 0; i < sourceCode.length(); i++) {
+            char c = sourceCode.charAt(i);
+
+            if (c == '#') {
+                ignoreMode = true;
+            } else if (c == '\n') {
+                ignoreMode = false;
+                output.append(c);
+            } else if (!ignoreMode) {
+                output.append(c);
+            }
         }
 
-        return sourceCode.substring(0, pos).trim();
+        return output.toString().trim().replaceAll("\\R", "Ë");
     }
 }

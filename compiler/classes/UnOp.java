@@ -7,7 +7,7 @@ public class UnOp extends Node {
     }
 
     @Override
-    public int Evaluate() {
+    public int Evaluate() throws Exception {
         if (value.equals("-")) {
             return -children[0].Evaluate();
         }
