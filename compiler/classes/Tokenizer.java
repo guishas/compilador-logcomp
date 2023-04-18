@@ -11,7 +11,7 @@ public class Tokenizer {
     public Tokenizer(String source) {
         this.source = source;
         this.position = 0;
-        this.reservedWords = new String[]{"println"};
+        this.reservedWords = new String[]{"println", "readln", "if", "else", "end", "while"};
     }
 
     public void selectNext() throws Exception {
@@ -52,8 +52,36 @@ public class Tokenizer {
             next = new Token("TT_RIGHT_PAR", ")");
             position++;
         } else if (source.charAt(position) == '=') {
-            next = new Token("TT_EQUALS", "=");
+            if (source.charAt(position+1) == '=') {
+                next = new Token("TT_IS_EQUAL_TO", "==");
+                position+=2;
+            } else {
+                next = new Token("TT_EQUALS", "=");
+                position++;
+            }
+        } else if (source.charAt(position) == '!') {
+            next = new Token("TT_NOT", "!");
             position++;
+        } else if (source.charAt(position) == '>') {
+            next = new Token("TT_GREATER", ">");
+            position++;
+        } else if (source.charAt(position) == '<') {
+            next = new Token("TT_LESS", "<");
+            position++;
+        } else if (source.charAt(position) == '&') {
+            if (source.charAt(position+1) == '&') {
+                next = new Token("TT_AND", "&&");
+                position+=2;
+            } else {
+                throw new Exception("& not a valid character!");
+            }
+        } else if (source.charAt(position) == '|') {
+            if (source.charAt(position+1) == '|') {
+                next = new Token("TT_OR", "||");
+                position+=2;
+            } else {
+                throw new Exception("| not a valid character!");
+            }
         } else if (source.charAt(position) == 'Ë') {
             next = new Token("TT_ENDLINE", "\\n");
             position++;
