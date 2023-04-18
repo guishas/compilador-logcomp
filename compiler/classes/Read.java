@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Read extends Node {
 
-    private Scanner sc;
+    private final Scanner sc;
 
     public Read(String value, Node[] children) {
         super(value, children);
@@ -13,6 +13,8 @@ public class Read extends Node {
 
     @Override
     public int Evaluate() throws Exception {
-        return sc.nextInt();
+        int i = sc.nextInt();
+        sc.nextLine();
+        return i;
     }
 }
