@@ -223,12 +223,12 @@ public class Parser {
             } else {
                 throw new Exception();
             }
-        } else if (tokenizer.getNext().getType().equals("TT_READLN")) {
+        } else if (tokenizer.getNext().getType().equals("TT_READLINE")) {
             tokenizer.selectNext();
             if (tokenizer.getNext().getType().equals("TT_LEFT_PAR")) {
                 tokenizer.selectNext();
 
-                ret = new Read("TT_READLN", new Node[]{});
+                ret = new Read("TT_READLINE", new Node[]{});
 
                 if (tokenizer.getNext().getType().equals("TT_RIGHT_PAR")) {
                     tokenizer.selectNext();
