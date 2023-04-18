@@ -13,7 +13,6 @@ public class Read extends Node {
 
     @Override
     public int Evaluate() throws Exception {
-        System.out.print("> ");
         return sc.nextInt();
     }
 }
