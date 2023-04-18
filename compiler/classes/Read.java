@@ -14,7 +14,7 @@ public class Read extends Node {
     @Override
     public int Evaluate() throws Exception {
         int i = sc.nextInt();
-        sc.nextLine();
+        sc.reset();
         return i;
     }
 }
