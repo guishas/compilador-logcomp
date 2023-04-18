@@ -11,7 +11,7 @@ public class Tokenizer {
     public Tokenizer(String source) {
         this.source = source;
         this.position = 0;
-        this.reservedWords = new String[]{"println", "readln", "if", "else", "end", "while"};
+        this.reservedWords = new String[]{"println", "readline", "if", "else", "end", "while"};
     }
 
     public void selectNext() throws Exception {
