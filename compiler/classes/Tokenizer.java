@@ -150,6 +150,12 @@ public class Tokenizer {
 
             if (reserved.equals("Int") || reserved.equals("String")) {
                 next = new Token("TT_TYPE", reserved.toLowerCase());
+            } else if (reserved.equals("end")) {
+                if (!next.getType().equals("TT_ENDLINE")) {
+                    throw new Exception();
+                } else {
+                    next = new Token("TT_" + reserved.toUpperCase(), reserved);
+                }
             } else {
                 next = new Token("TT_" + reserved.toUpperCase(), reserved);
             }
