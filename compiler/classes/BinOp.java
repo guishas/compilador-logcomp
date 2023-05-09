@@ -16,32 +16,20 @@ public class BinOp extends Node {
         if (children[0].Evaluate().get(0).equals("string") || children[1].Evaluate().get(0).equals("string")) {
             if (value.equals(".")) {
                 return new ArrayList<>(Arrays.asList("string", a + b));
-            } else if (value.equals("&&")) {
-                if (Integer.parseInt(a) == 1 && Integer.parseInt(b) == 1) {
-                    return new ArrayList<>(Arrays.asList("int", "1"));
-                } else {
-                    return new ArrayList<>(Arrays.asList("int", "0"));
-                }
-            } else if (value.equals("||")) {
-                if (Integer.parseInt(a) == 1 || Integer.parseInt(b) == 1) {
-                    return new ArrayList<>(Arrays.asList("int", "1"));
-                } else {
-                    return new ArrayList<>(Arrays.asList("int", "0"));
-                }
             } else if (value.equals("==")) {
-                if (Integer.parseInt(a) == Integer.parseInt(b)) {
+                if (a.compareTo(b) == 0) {
                     return new ArrayList<>(Arrays.asList("int", "1"));
                 } else {
                     return new ArrayList<>(Arrays.asList("int", "0"));
                 }
             } else if (value.equals("<")) {
-                if (Integer.parseInt(a) < Integer.parseInt(b)) {
+                if (a.compareTo(b) < 0) {
                     return new ArrayList<>(Arrays.asList("int", "1"));
                 } else {
                     return new ArrayList<>(Arrays.asList("int", "0"));
                 }
             } else if (value.equals(">")) {
-                if (Integer.parseInt(a) > Integer.parseInt(b)) {
+                if (a.compareTo(b) > 0) {
                     return new ArrayList<>(Arrays.asList("int", "1"));
                 } else {
                     return new ArrayList<>(Arrays.asList("int", "0"));
@@ -50,7 +38,9 @@ public class BinOp extends Node {
                 throw new Exception();
             }
         } else {
-            if (value.equals("+")) {
+            if (value.equals(".")) {
+                return new ArrayList<>(Arrays.asList("int", a+b));
+            } else if (value.equals("+")) {
                 return new ArrayList<>(Arrays.asList("int", Integer.toString(Integer.parseInt(a) + Integer.parseInt(b))));
             } else if (value.equals("-")) {
                 return new ArrayList<>(Arrays.asList("int", Integer.toString(Integer.parseInt(a) - Integer.parseInt(b))));

@@ -60,7 +60,7 @@ public class Parser {
             tokenizer.selectNext();
             if (tokenizer.getNext().getType().equals("TT_LEFT_PAR")) {
                 tokenizer.selectNext();
-                Node n = new Print("PRINTLN", new Node[]{parseExpression()});
+                Node n = new Print("PRINTLN", new Node[]{parseRelExpression()});
 
                 if (tokenizer.getNext().getType().equals("TT_RIGHT_PAR")) {
                     tokenizer.selectNext();
