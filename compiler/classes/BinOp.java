@@ -1,6 +1,7 @@
 package compiler.classes;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class BinOp extends Node {
 
@@ -9,37 +10,93 @@ public class BinOp extends Node {
     }
 
     @Override
-    public int Evaluate() throws Exception {
-        if (value.equals("*")) {
-            return children[0].Evaluate() * children[1].Evaluate();
-        } else if (value.equals("/")) {
-            return (int) Math.floor((double) children[0].Evaluate() / children[1].Evaluate());
-        } else if (value.equals("+")) {
-            return children[0].Evaluate() + children[1].Evaluate();
-        } else if (value.equals("&&")) {
-            return children[0].Evaluate() & children[1].Evaluate();
-        } else if (value.equals("||")) {
-            return children[0].Evaluate() | children[1].Evaluate();
-        } else if (value.equals("==")) {
-            if (children[0].Evaluate() == children[1].Evaluate()) {
-                return 1;
+    public ArrayList<String> Evaluate() throws Exception {
+        String a = children[0].Evaluate().get(1);
+        String b = children[1].Evaluate().get(1);
+        if (children[0].Evaluate().get(0).equals("string") || children[1].Evaluate().get(0).equals("string")) {
+            if (value.equals(".")) {
+                return new ArrayList<>(Arrays.asList("String", a + b));
+            } else if (value.equals("&&")) {
+                if (Integer.parseInt(a) == 1 && Integer.parseInt(b) == 1) {
+                    return new ArrayList<>(Arrays.asList("Int", "1"));
+                } else {
+                    return new ArrayList<>(Arrays.asList("Int", "0"));
+                }
+            } else if (value.equals("||")) {
+                if (Integer.parseInt(a) == 1 || Integer.parseInt(b) == 1) {
+                    return new ArrayList<>(Arrays.asList("Int", "1"));
+                } else {
+                    return new ArrayList<>(Arrays.asList("Int", "0"));
+                }
+            } else if (value.equals("==")) {
+                if (Integer.parseInt(a) == Integer.parseInt(b)) {
+                    return new ArrayList<>(Arrays.asList("Int", "1"));
+                } else {
+                    return new ArrayList<>(Arrays.asList("Int", "0"));
+                }
+            } else if (value.equals("<")) {
+                if (Integer.parseInt(a) < Integer.parseInt(b)) {
+                    return new ArrayList<>(Arrays.asList("Int", "1"));
+                } else {
+                    return new ArrayList<>(Arrays.asList("Int", "0"));
+                }
+            } else if (value.equals(">")) {
+                if (Integer.parseInt(a) > Integer.parseInt(b)) {
+                    return new ArrayList<>(Arrays.asList("Int", "1"));
+                } else {
+                    return new ArrayList<>(Arrays.asList("Int", "0"));
+                }
             } else {
-                return 0;
-            }
-        } else if (value.equals(">")) {
-            if (children[0].Evaluate() > children[1].Evaluate()) {
-                return 1;
-            } else {
-                return 0;
-            }
-        } else if (value.equals("<")) {
-            if (children[0].Evaluate() < children[1].Evaluate()) {
-                return 1;
-            } else {
-                return 0;
+                throw new Exception();
             }
         } else {
-            return children[0].Evaluate() - children[1].Evaluate();
+            if (value.equals("+")) {
+                return new ArrayList<>(Arrays.asList("Int", Integer.toString(Integer.parseInt(a) + Integer.parseInt(b))));
+            } else if (value.equals("-")) {
+                return new ArrayList<>(Arrays.asList("Int", Integer.toString(Integer.parseInt(a) - Integer.parseInt(b))));
+            } else if (value.equals("*")) {
+                return new ArrayList<>(Arrays.asList("Int", Integer.toString(Integer.parseInt(a) * Integer.parseInt(b))));
+            } else if (value.equals("/")) {
+                int div = (int) Math.floor((double) Integer.parseInt(a) / Integer.parseInt(b));
+                return new ArrayList<>(Arrays.asList("Int", Integer.toString(div)));
+            } else if (value.equals("&&")) {
+                if (Integer.parseInt(a) == 1 && Integer.parseInt(b) == 1) {
+                    return new ArrayList<>(Arrays.asList("Int", "1"));
+                } else {
+                    return new ArrayList<>(Arrays.asList("Int", "0"));
+                }
+            } else if (value.equals("||")) {
+                if (Integer.parseInt(a) == 1 || Integer.parseInt(b) == 1) {
+                    return new ArrayList<>(Arrays.asList("Int", "1"));
+                } else {
+                    return new ArrayList<>(Arrays.asList("Int", "0"));
+                }
+            } else if (value.equals("==")) {
+                if (Integer.parseInt(a) == Integer.parseInt(b)) {
+                    return new ArrayList<>(Arrays.asList("Int", "1"));
+                } else {
+                    return new ArrayList<>(Arrays.asList("Int", "0"));
+                }
+            } else if (value.equals("<")) {
+                if (Integer.parseInt(a) < Integer.parseInt(b)) {
+                    return new ArrayList<>(Arrays.asList("Int", "1"));
+                } else {
+                    return new ArrayList<>(Arrays.asList("Int", "0"));
+                }
+            } else if (value.equals(">")) {
+                if (Integer.parseInt(a) > Integer.parseInt(b)) {
+                    return new ArrayList<>(Arrays.asList("Int", "1"));
+                } else {
+                    return new ArrayList<>(Arrays.asList("Int", "0"));
+                }
+            } else {
+                throw new Exception();
+            }
         }
+    }
+
+    @Override
+    public String EvaluateString() throws Exception {
+        return null;
     }
 }

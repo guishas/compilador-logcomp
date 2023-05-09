@@ -34,7 +34,25 @@ public class Parser {
             tokenizer.selectNext();
             if (tokenizer.getNext().getType().equals("TT_EQUALS")) {
                 tokenizer.selectNext();
-                return new Assignment("ASSIGNMENT", new Node[]{new Identifier(iden.getValue(), new Node[]{}), parseExpression()});
+                return new Assignment("ASSIGNMENT", new Node[]{new Identifier(iden.getValue(), new Node[]{}), parseRelExpression()});
+            } else if (tokenizer.getNext().getType().equals("TT_TYPE_ASSIGN")) {
+                tokenizer.selectNext();
+                if (tokenizer.getNext().getType().equals("TT_TYPE")) {
+                    String type = tokenizer.getNext().getValue();
+                    tokenizer.selectNext();
+                    if (tokenizer.getNext().getType().equals("TT_EQUALS")) {
+                        tokenizer.selectNext();
+                        return new VarDec(type, new Node[]{new Identifier(iden.getValue(), new Node[]{}), parseRelExpression()});
+                    } else {
+                        if (type.equals("int")) {
+                            return new VarDec(type, new Node[]{new Identifier(iden.getValue(), new Node[]{}), new StrVal("", new Node[]{})});
+                        } else if (type.equals("string")) {
+                            return new VarDec(type, new Node[]{new Identifier(iden.getValue(), new Node[]{}), new IntVal("0", new Node[]{})});
+                        }
+                    }
+                } else {
+                    throw new Exception();
+                }
             } else {
                 throw new Exception();
             }
@@ -138,6 +156,8 @@ public class Parser {
         } else {
             throw new Exception();
         }
+
+        return null;
     }
 
     public Node parseRelExpression() throws Exception {
@@ -160,16 +180,21 @@ public class Parser {
 
     public Node parseExpression() throws Exception {
         Node result = parseTerm();
-        while (Arrays.asList(new String[]{"TT_PLUS", "TT_MINUS", "TT_OR"}).contains(tokenizer.getNext().getType())) {
+        while (Arrays.asList(new String[]{"TT_PLUS", "TT_MINUS", "TT_OR", "TT_CONCAT"}).contains(tokenizer.getNext().getType())) {
             if (tokenizer.getNext().getType().equals("TT_PLUS")) {
                 tokenizer.selectNext();
                 result = new BinOp("+", new Node[]{result, parseTerm()});
             } else if (tokenizer.getNext().getType().equals("TT_MINUS")) {
                 tokenizer.selectNext();
                 result = new BinOp("-", new Node[]{result, parseTerm()});
-            } else {
+            } else if (tokenizer.getNext().getType().equals("TT_OR")) {
                 tokenizer.selectNext();
                 result = new BinOp("||", new Node[]{result, parseTerm()});
+            } else if (tokenizer.getNext().getType().equals("TT_CONCAT")) {
+                tokenizer.selectNext();
+                result = new BinOp(".", new Node[]{result, parseTerm()});
+            } else {
+                throw new Exception();
             }
         }
 
@@ -198,6 +223,10 @@ public class Parser {
         Node ret;
         if (tokenizer.getNext().getType().equals("TT_INT")) {
             ret = new IntVal(tokenizer.getNext().getValue(), new Node[]{});
+            tokenizer.selectNext();
+            return ret;
+        } else if (tokenizer.getNext().getType().equals("TT_STRING")) {
+            ret = new StrVal(tokenizer.getNext().getValue(), new Node[]{});
             tokenizer.selectNext();
             return ret;
         } else if (tokenizer.getNext().getType().equals("TT_IDENTIFIER")) {

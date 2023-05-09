@@ -1,5 +1,7 @@
 package compiler.classes;
 
+import java.util.ArrayList;
+
 public class Block extends Node {
 
     public Block(String value, Node[] children) {
@@ -7,11 +9,16 @@ public class Block extends Node {
     }
 
     @Override
-    public int Evaluate() throws Exception {
+    public ArrayList<String> Evaluate() throws Exception {
         for (Node node : children) {
             node.Evaluate();
         }
 
-        return 0;
+        return new ArrayList<>();
+    }
+
+    @Override
+    public String EvaluateString() throws Exception {
+        return null;
     }
 }

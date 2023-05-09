@@ -1,5 +1,8 @@
 package compiler.classes;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class IntVal extends Node {
 
     public IntVal(String value, Node[] children) {
@@ -7,7 +10,12 @@ public class IntVal extends Node {
     }
 
     @Override
-    public int Evaluate() {
-        return Integer.parseInt(value);
+    public ArrayList<String> Evaluate() {
+        return new ArrayList<>(Arrays.asList("Int", value));
+    }
+
+    @Override
+    public String EvaluateString() throws Exception {
+        return null;
     }
 }

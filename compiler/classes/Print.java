@@ -1,5 +1,7 @@
 package compiler.classes;
 
+import java.util.ArrayList;
+
 public class Print extends Node {
 
     public Print(String value, Node[] children) {
@@ -7,8 +9,13 @@ public class Print extends Node {
     }
 
     @Override
-    public int Evaluate() throws Exception {
-        System.out.println(children[0].Evaluate());
-        return 0;
+    public ArrayList<String> Evaluate() throws Exception {
+        System.out.println(children[0].Evaluate().get(1));
+        return new ArrayList<>();
+    }
+
+    @Override
+    public String EvaluateString() throws Exception {
+        return null;
     }
 }

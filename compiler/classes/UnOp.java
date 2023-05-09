@@ -1,5 +1,8 @@
 package compiler.classes;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class UnOp extends Node {
 
     public UnOp(String value, Node[] children) {
@@ -7,20 +10,23 @@ public class UnOp extends Node {
     }
 
     @Override
-    public int Evaluate() throws Exception {
+    public ArrayList<String> Evaluate() throws Exception {
         if (value.equals("-")) {
-            return -children[0].Evaluate();
-        }
-
-        if (value.equals("!")) {
-            int bool = children[0].Evaluate();
-            if (bool == 0) {
-                return 1;
+            return new ArrayList<>(Arrays.asList("Int", "-" + children[0].Evaluate().get(1)));
+        } else if (value.equals("!")) {
+            String bool = children[0].Evaluate().get(1);
+            if (bool.equals("0")) {
+                return new ArrayList<>(Arrays.asList("Int", "1"));
             } else {
-                return 0;
+                return new ArrayList<>(Arrays.asList("Int", "0"));
             }
+        } else {
+            return new ArrayList<>(Arrays.asList("Int", children[0].Evaluate().get(1)));
         }
+    }
 
-        return children[0].Evaluate();
+    @Override
+    public String EvaluateString() throws Exception {
+        return null;
     }
 }

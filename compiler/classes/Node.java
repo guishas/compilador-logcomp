@@ -1,4 +1,7 @@
 package compiler.classes;
+
+import java.util.ArrayList;
+
 public abstract class Node {
     protected final String value;
     protected final Node[] children;
@@ -12,5 +15,7 @@ public abstract class Node {
         return value;
     }
 
-    public abstract int Evaluate() throws Exception;
+    public abstract ArrayList<String> Evaluate() throws Exception;
+
+    public abstract String EvaluateString() throws Exception;
 }

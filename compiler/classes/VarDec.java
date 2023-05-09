@@ -1,19 +1,17 @@
 package compiler.classes;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
-public class While extends Node {
+public class VarDec extends Node {
 
-    public While(String value, Node[] children) {
+    public VarDec(String value, Node[] children) {
         super(value, children);
     }
 
     @Override
     public ArrayList<String> Evaluate() throws Exception {
-        while (children[0].Evaluate().get(1).equals("1")) {
-            children[1].Evaluate();
-        }
-
+        SymbolTable.create(children[0].getValue(), new ArrayList<>(Arrays.asList(value, children[1].Evaluate().get(1))));
         return new ArrayList<>();
     }
 

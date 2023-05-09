@@ -1,5 +1,7 @@
 package compiler.classes;
 
+import java.util.ArrayList;
+
 public class NoOp extends Node {
 
     public NoOp(String value, Node[] children) {
@@ -7,7 +9,12 @@ public class NoOp extends Node {
     }
 
     @Override
-    public int Evaluate() {
-        return -1;
+    public ArrayList<String> Evaluate() {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public String EvaluateString() throws Exception {
+        return null;
     }
 }

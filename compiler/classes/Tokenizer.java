@@ -11,7 +11,7 @@ public class Tokenizer {
     public Tokenizer(String source) {
         this.source = source;
         this.position = 0;
-        this.reservedWords = new String[]{"println", "readline", "if", "else", "end", "while"};
+        this.reservedWords = new String[]{"println", "readline", "if", "else", "end", "while", "Int", "String"};
     }
 
     public void selectNext() throws Exception {
@@ -44,6 +44,9 @@ public class Tokenizer {
             position++;
         } else if (source.charAt(position) == '/') {
             next = new Token("TT_DIV", "/");
+            position++;
+        } else if (source.charAt(position) == '.') {
+            next = new Token("TT_CONCAT", ".");
             position++;
         } else if (source.charAt(position) == '(') {
             next = new Token("TT_LEFT_PAR", "(");
@@ -82,6 +85,16 @@ public class Tokenizer {
             } else {
                 throw new Exception("| not a valid character!");
             }
+        } else if (source.charAt(position) == ':') {
+            if (source.charAt(position+1) == ':') {
+                next = new Token("TT_TYPE_ASSIGN", "::");
+                position+=2;
+            } else {
+                throw new Exception(": not a valid character");
+            }
+        } else if (source.charAt(position) == '"') {
+            position++;
+            makeString();
         } else if (source.charAt(position) == 'Ë') {
             next = new Token("TT_ENDLINE", "\\n");
             position++;
@@ -107,6 +120,18 @@ public class Tokenizer {
         next = new Token("TT_INT", num.toString());
     }
 
+    public void makeString() {
+        StringBuilder str = new StringBuilder();
+
+        while (position < source.length() && source.charAt(position) != '"') {
+            str.append(source.charAt(position));
+            position++;
+        }
+
+        position++;
+        next = new Token("TT_STRING", str.toString());
+    }
+
     public void makeWord() throws Exception {
         StringBuilder word = new StringBuilder();
 
@@ -123,7 +148,11 @@ public class Tokenizer {
                 }
             }
 
-            next = new Token("TT_" + reserved.toUpperCase(), reserved);
+            if (reserved.equals("Int") || reserved.equals("String")) {
+                next = new Token("TT_TYPE", reserved.toLowerCase());
+            } else {
+                next = new Token("TT_" + reserved.toUpperCase(), reserved);
+            }
         } else {
             if (Character.isDigit(word.toString().charAt(0))) {
                 throw new Exception("Invalid character!");

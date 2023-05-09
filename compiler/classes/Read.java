@@ -1,5 +1,7 @@
 package compiler.classes;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Read extends Node {
@@ -10,8 +12,13 @@ public class Read extends Node {
     }
 
     @Override
-    public int Evaluate() throws Exception {
+    public ArrayList<String> Evaluate() throws Exception {
         sc.reset();
-        return sc.nextInt();
+        return new ArrayList<>(Arrays.asList("Int", Integer.toString(sc.nextInt())));
+    }
+
+    @Override
+    public String EvaluateString() throws Exception {
+        return null;
     }
 }

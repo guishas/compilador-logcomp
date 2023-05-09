@@ -1,5 +1,7 @@
 package compiler.classes;
 
+import java.util.ArrayList;
+
 public class Identifier extends Node {
 
     public Identifier(String value, Node[] children) {
@@ -7,7 +9,12 @@ public class Identifier extends Node {
     }
 
     @Override
-    public int Evaluate() throws Exception {
-        return Integer.parseInt(SymbolTable.get(value));
+    public ArrayList<String> Evaluate() throws Exception {
+        return SymbolTable.get(value);
+    }
+
+    @Override
+    public String EvaluateString() throws Exception {
+        return null;
     }
 }
