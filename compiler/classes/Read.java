@@ -14,7 +14,7 @@ public class Read extends Node {
     @Override
     public ArrayList<String> Evaluate() throws Exception {
         sc.reset();
-        return new ArrayList<>(Arrays.asList("Int", Integer.toString(sc.nextInt())));
+        return new ArrayList<>(Arrays.asList("int", Integer.toString(sc.nextInt())));
     }
 
     @Override

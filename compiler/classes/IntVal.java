@@ -11,7 +11,7 @@ public class IntVal extends Node {
 
     @Override
     public ArrayList<String> Evaluate() {
-        return new ArrayList<>(Arrays.asList("Int", value));
+        return new ArrayList<>(Arrays.asList("int", value));
     }
 
     @Override

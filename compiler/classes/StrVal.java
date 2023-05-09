@@ -11,7 +11,7 @@ public class StrVal extends Node {
 
     @Override
     public ArrayList<String> Evaluate() throws Exception {
-        return new ArrayList<>(Arrays.asList("String", value));
+        return new ArrayList<>(Arrays.asList("string", value));
     }
 
     public String EvaluateString() {
