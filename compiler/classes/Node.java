@@ -15,7 +15,7 @@ public abstract class Node {
         return value;
     }
 
-    public static int newId() {
+    public int newId() {
         i+=1;
         return i;
     }

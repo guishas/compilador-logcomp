@@ -6,8 +6,9 @@ import java.nio.file.Paths;
 public class Compilador {
     public static void main(String[] args) throws Exception {
         String content = Files.readString(Paths.get(args[0]).toAbsolutePath());
-        String fileName = Paths.get(args[0]).toAbsolutePath().toString().split("\\.")[0];
-        Writer.setFilePath(fileName + ".asm");
+        String[] dir = Paths.get(args[0]).toAbsolutePath().toString().split("/");
+        String fileName = dir[dir.length - 1].replace(".jl", ".asm");
+        Writer.setFilePath(fileName);
         Writer.clearFile();
         String headerPath = Paths.get("header.txt").toAbsolutePath().toString();
         Writer.writeHeader(headerPath);

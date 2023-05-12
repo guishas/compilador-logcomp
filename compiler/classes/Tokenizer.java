@@ -101,11 +101,8 @@ public class Tokenizer {
         } else if (Character.isLetter(source.charAt(position))) {
             makeWord();
         } else {
-            System.out.println(source.charAt(0));
             throw new Exception("Invalid character!");
         }
-
-        System.out.println(next);
     }
 
     public Token getNext() {
