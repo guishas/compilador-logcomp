@@ -15,6 +15,7 @@ public class Tokenizer {
     }
 
     public void selectNext() throws Exception {
+        System.out.println(source.charAt(position));
         if (position == source.length()) {
             next = new Token("EOF", "EOF");
             return;
