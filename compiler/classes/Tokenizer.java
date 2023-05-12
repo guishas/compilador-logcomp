@@ -103,6 +103,8 @@ public class Tokenizer {
         } else {
             throw new Exception("Invalid character!");
         }
+
+        System.out.println(next);
     }
 
     public Token getNext() {
