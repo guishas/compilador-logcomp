@@ -9,18 +9,18 @@ public class If extends Node {
     }
 
     @Override
-    public ArrayList<String> Evaluate() throws Exception {
-        if (children[0].Evaluate().get(1).equals("1")) {
-            children[1].Evaluate();
-        } else if (children.length == 3) {
+    public void Evaluate() throws Exception {
+        children[0].Evaluate();
+        Writer.writeToFileAppend("  CMP EBX, True\n");
+        Writer.writeToFileAppend("  JE IF_" + i + "\n");
+        if (children.length == 3) {
             children[2].Evaluate();
+            Writer.writeToFileAppend("  JMP ENDIF_" + i + "\n");
+        } else {
+            Writer.writeToFileAppend("  JMP ENDIF_" + i + "\n");
         }
-
-        return new ArrayList<>();
-    }
-
-    @Override
-    public String EvaluateString() throws Exception {
-        return null;
+        Writer.writeToFileAppend("  IF_" + i + ":\n");
+        children[1].Evaluate();
+        Writer.writeToFileAppend("  ENDIF_" + i + ":\n");
     }
 }

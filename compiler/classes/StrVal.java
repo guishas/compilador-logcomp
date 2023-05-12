@@ -10,11 +10,7 @@ public class StrVal extends Node {
     }
 
     @Override
-    public ArrayList<String> Evaluate() throws Exception {
-        return new ArrayList<>(Arrays.asList("string", value));
-    }
+    public void Evaluate() throws Exception {
 
-    public String EvaluateString() {
-        return value;
     }
 }

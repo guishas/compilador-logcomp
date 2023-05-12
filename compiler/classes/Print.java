@@ -9,13 +9,10 @@ public class Print extends Node {
     }
 
     @Override
-    public ArrayList<String> Evaluate() throws Exception {
-        System.out.println(children[0].Evaluate().get(1));
-        return new ArrayList<>();
-    }
-
-    @Override
-    public String EvaluateString() throws Exception {
-        return null;
+    public void Evaluate() throws Exception {
+        children[0].Evaluate();
+        Writer.writeToFileAppend("  PUSH EBX\n");
+        Writer.writeToFileAppend("  CALL print\n");
+        Writer.writeToFileAppend("  POP EBX\n");
     }
 }

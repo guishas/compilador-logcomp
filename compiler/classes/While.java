@@ -9,16 +9,13 @@ public class While extends Node {
     }
 
     @Override
-    public ArrayList<String> Evaluate() throws Exception {
-        while (children[0].Evaluate().get(1).equals("1")) {
-            children[1].Evaluate();
-        }
-
-        return new ArrayList<>();
-    }
-
-    @Override
-    public String EvaluateString() throws Exception {
-        return null;
+    public void Evaluate() throws Exception {
+        Writer.writeToFileAppend("  WHILE_" + i + ":\n");
+        children[0].Evaluate();
+        Writer.writeToFileAppend("  CMP EBX, False\n");
+        Writer.writeToFileAppend("  JE ENDWHILE_" + i + "\n");
+        children[1].Evaluate();
+        Writer.writeToFileAppend("  JMP WHILE_" + i + "\n");
+        Writer.writeToFileAppend("  ENDWHILE_" + i + ":\n");
     }
 }

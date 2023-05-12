@@ -12,13 +12,7 @@ public class Read extends Node {
     }
 
     @Override
-    public ArrayList<String> Evaluate() throws Exception {
+    public void Evaluate() throws Exception {
         sc.reset();
-        return new ArrayList<>(Arrays.asList("int", Integer.toString(sc.nextInt())));
-    }
-
-    @Override
-    public String EvaluateString() throws Exception {
-        return null;
     }
 }

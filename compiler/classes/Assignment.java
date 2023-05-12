@@ -9,13 +9,9 @@ public class Assignment extends Node {
     }
 
     @Override
-    public ArrayList<String> Evaluate() throws Exception {
-        SymbolTable.set(children[0].getValue(), children[1].Evaluate());
-        return new ArrayList<>();
-    }
-
-    @Override
-    public String EvaluateString() throws Exception {
-        return null;
+    public void Evaluate() throws Exception {
+        children[1].Evaluate();
+        ArrayList<String> ret = SymbolTable.get(children[0].getValue());
+        Writer.writeToFileAppend("  MOV " + ret.get(1) + ", EBX\n");
     }
 }

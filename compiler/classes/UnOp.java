@@ -10,23 +10,12 @@ public class UnOp extends Node {
     }
 
     @Override
-    public ArrayList<String> Evaluate() throws Exception {
+    public void Evaluate() throws Exception {
+        children[0].Evaluate();
         if (value.equals("-")) {
-            return new ArrayList<>(Arrays.asList("int", "-" + children[0].Evaluate().get(1)));
+            Writer.writeToFileAppend("  NEG EBX\n");
         } else if (value.equals("!")) {
-            String bool = children[0].Evaluate().get(1);
-            if (bool.equals("0")) {
-                return new ArrayList<>(Arrays.asList("int", "1"));
-            } else {
-                return new ArrayList<>(Arrays.asList("int", "0"));
-            }
-        } else {
-            return new ArrayList<>(Arrays.asList("int", children[0].Evaluate().get(1)));
+            Writer.writeToFileAppend("  NOT EBX\n");
         }
-    }
-
-    @Override
-    public String EvaluateString() throws Exception {
-        return null;
     }
 }

@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 public class SymbolTable {
     public static HashMap<String, ArrayList<String>> symbolTable = new HashMap<>();
+    public static int i = -4;
 
     public SymbolTable() {
 
@@ -12,7 +13,9 @@ public class SymbolTable {
 
     public static void create(String key, ArrayList<String> arrayList) throws Exception {
         if (!symbolTable.containsKey(key)) {
+            arrayList.add(1, "[EBP" + i + "]");
             symbolTable.put(key, arrayList);
+            i -= 4;
         } else {
             throw new Exception();
         }

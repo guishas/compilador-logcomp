@@ -9,16 +9,9 @@ public class Block extends Node {
     }
 
     @Override
-    public ArrayList<String> Evaluate() throws Exception {
+    public void Evaluate() throws Exception {
         for (Node node : children) {
             node.Evaluate();
         }
-
-        return new ArrayList<>();
-    }
-
-    @Override
-    public String EvaluateString() throws Exception {
-        return null;
     }
 }

@@ -9,12 +9,8 @@ public class Identifier extends Node {
     }
 
     @Override
-    public ArrayList<String> Evaluate() throws Exception {
-        return SymbolTable.get(value);
-    }
-
-    @Override
-    public String EvaluateString() throws Exception {
-        return null;
+    public void Evaluate() throws Exception {
+        ArrayList<String> ret = SymbolTable.get(value);
+        Writer.writeToFileAppend("  MOV EBX, " + ret.get(1) + "\n");
     }
 }

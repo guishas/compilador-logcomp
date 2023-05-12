@@ -10,13 +10,8 @@ public class VarDec extends Node {
     }
 
     @Override
-    public ArrayList<String> Evaluate() throws Exception {
-        SymbolTable.create(children[0].getValue(), new ArrayList<>(Arrays.asList(value, children[1].Evaluate().get(1))));
-        return new ArrayList<>();
-    }
-
-    @Override
-    public String EvaluateString() throws Exception {
-        return null;
+    public void Evaluate() throws Exception {
+        SymbolTable.create(children[0].getValue(), new ArrayList<>(Arrays.asList(value)));
+        Writer.writeToFileAppend("  PUSH DWORD 0\n");
     }
 }

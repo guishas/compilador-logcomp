@@ -1,21 +1,24 @@
 package compiler.classes;
 
-import java.util.ArrayList;
-
 public abstract class Node {
     protected final String value;
     protected final Node[] children;
+    protected static int i = 0;
 
     public Node(String value, Node[] children) {
         this.value = value;
         this.children = children;
+        i = newId();
     }
 
     public String getValue() {
         return value;
     }
 
-    public abstract ArrayList<String> Evaluate() throws Exception;
+    public static int newId() {
+        i+=1;
+        return i;
+    }
 
-    public abstract String EvaluateString() throws Exception;
+    public abstract void Evaluate() throws Exception;
 }

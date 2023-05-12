@@ -9,12 +9,7 @@ public class NoOp extends Node {
     }
 
     @Override
-    public ArrayList<String> Evaluate() {
-        return new ArrayList<>();
-    }
+    public void Evaluate() {
 
-    @Override
-    public String EvaluateString() throws Exception {
-        return null;
     }
 }
