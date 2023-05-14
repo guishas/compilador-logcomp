@@ -7,7 +7,6 @@ public class If extends Node {
     public If(String value, Node[] children) {
         super(value, children);
         this.index = i;
-        System.out.println(index);
     }
 
     @Override
