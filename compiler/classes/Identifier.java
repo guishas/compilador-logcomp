@@ -9,12 +9,7 @@ public class Identifier extends Node {
     }
 
     @Override
-    public ArrayList<String> Evaluate() throws Exception {
-        return SymbolTable.get(value);
-    }
-
-    @Override
-    public String EvaluateString() throws Exception {
-        return null;
+    public ArrayList<String> Evaluate(SymbolTable symbolTable) throws Exception {
+        return symbolTable.get(value);
     }
 }

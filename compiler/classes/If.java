@@ -9,18 +9,13 @@ public class If extends Node {
     }
 
     @Override
-    public ArrayList<String> Evaluate() throws Exception {
-        if (children[0].Evaluate().get(1).equals("1")) {
-            children[1].Evaluate();
+    public ArrayList<String> Evaluate(SymbolTable symbolTable) throws Exception {
+        if (children[0].Evaluate(symbolTable).get(1).equals("1")) {
+            children[1].Evaluate(symbolTable);
         } else if (children.length == 3) {
-            children[2].Evaluate();
+            children[2].Evaluate(symbolTable);
         }
 
         return new ArrayList<>();
-    }
-
-    @Override
-    public String EvaluateString() throws Exception {
-        return null;
     }
 }

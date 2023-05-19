@@ -1,16 +1,15 @@
 package compiler.classes;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
-public class StrVal extends Node {
+public class Return extends Node {
 
-    public StrVal(String value, Node[] children) {
+    public Return(String value, Node[] children) {
         super(value, children);
     }
 
     @Override
     public ArrayList<String> Evaluate(SymbolTable symbolTable) throws Exception {
-        return new ArrayList<>(Arrays.asList("string", value));
+        return children[0].Evaluate(symbolTable);
     }
 }

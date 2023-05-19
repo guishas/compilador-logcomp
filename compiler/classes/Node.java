@@ -15,7 +15,5 @@ public abstract class Node {
         return value;
     }
 
-    public abstract ArrayList<String> Evaluate() throws Exception;
-
-    public abstract String EvaluateString() throws Exception;
+    public abstract ArrayList<String> Evaluate(SymbolTable symbolTable) throws Exception;
 }

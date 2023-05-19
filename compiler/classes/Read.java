@@ -12,13 +12,8 @@ public class Read extends Node {
     }
 
     @Override
-    public ArrayList<String> Evaluate() throws Exception {
+    public ArrayList<String> Evaluate(SymbolTable symbolTable) throws Exception {
         sc.reset();
         return new ArrayList<>(Arrays.asList("int", Integer.toString(sc.nextInt())));
-    }
-
-    @Override
-    public String EvaluateString() throws Exception {
-        return null;
     }
 }

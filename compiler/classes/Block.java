@@ -9,16 +9,15 @@ public class Block extends Node {
     }
 
     @Override
-    public ArrayList<String> Evaluate() throws Exception {
+    public ArrayList<String> Evaluate(SymbolTable symbolTable) throws Exception {
         for (Node node : children) {
-            node.Evaluate();
+            if (node.getValue().equals("TT_RETURN")) {
+                return node.Evaluate(symbolTable);
+            } else {
+                node.Evaluate(symbolTable);
+            }
         }
 
         return new ArrayList<>();
-    }
-
-    @Override
-    public String EvaluateString() throws Exception {
-        return null;
     }
 }

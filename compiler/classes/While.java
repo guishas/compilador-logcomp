@@ -9,16 +9,11 @@ public class While extends Node {
     }
 
     @Override
-    public ArrayList<String> Evaluate() throws Exception {
-        while (children[0].Evaluate().get(1).equals("1")) {
-            children[1].Evaluate();
+    public ArrayList<String> Evaluate(SymbolTable symbolTable) throws Exception {
+        while (children[0].Evaluate(symbolTable).get(1).equals("1")) {
+            children[1].Evaluate(symbolTable);
         }
 
         return new ArrayList<>();
-    }
-
-    @Override
-    public String EvaluateString() throws Exception {
-        return null;
     }
 }

@@ -45,17 +45,45 @@ public class Parser {
                         return new VarDec(type, new Node[]{new Identifier(iden.getValue(), new Node[]{}), parseRelExpression()});
                     } else {
                         if (type.equals("int")) {
-                            return new VarDec(type, new Node[]{new Identifier(iden.getValue(), new Node[]{}), new StrVal("", new Node[]{})});
-                        } else if (type.equals("string")) {
                             return new VarDec(type, new Node[]{new Identifier(iden.getValue(), new Node[]{}), new IntVal("0", new Node[]{})});
+                        } else if (type.equals("string")) {
+                            return new VarDec(type, new Node[]{new Identifier(iden.getValue(), new Node[]{}), new StrVal("", new Node[]{})});
                         }
                     }
                 } else {
                     throw new Exception();
                 }
+            } else if (tokenizer.getNext().getType().equals("TT_LEFT_PAR")) {
+                tokenizer.selectNext();
+                ArrayList<Node> params = new ArrayList<>();
+                if (tokenizer.getNext().getType().equals("TT_RIGHT_PAR")) {
+                    return new FuncCall(iden.getValue(), new Node[]{});
+                } else {
+                    params.add(parseRelExpression());
+                    while (tokenizer.getNext().getType().equals("TT_COMMA")) {
+                        tokenizer.selectNext();
+                        params.add(parseRelExpression());
+                    }
+
+                    if (tokenizer.getNext().getType().equals("TT_RIGHT_PAR")) {
+                        tokenizer.selectNext();
+
+                        Node[] args = new Node[params.size()];
+                        for (int i = 0; i < params.size(); i++) {
+                            args[i] = params.get(i);
+                        }
+
+                        return new FuncCall(iden.getValue(), args);
+                    } else {
+                        throw new Exception("Unexpected token: " + tokenizer.getNext().getType());
+                    }
+                }
             } else {
                 throw new Exception();
             }
+        } else if (tokenizer.getNext().getType().equals("TT_RETURN")) {
+            tokenizer.selectNext();
+            return new Return("TT_RETURN", new Node[]{parseRelExpression()});
         } else if (tokenizer.getNext().getType().equals("TT_PRINTLN")) {
             tokenizer.selectNext();
             if (tokenizer.getNext().getType().equals("TT_LEFT_PAR")) {
@@ -153,6 +181,114 @@ public class Parser {
             } else {
                 throw new Exception();
             }
+        } else if (tokenizer.getNext().getType().equals("TT_FUNCTION")) {
+            tokenizer.selectNext();
+            if (tokenizer.getNext().getType().equals("TT_IDENTIFIER")) {
+                Node identifier = new Identifier(tokenizer.getNext().getValue(), new Node[]{});
+                tokenizer.selectNext();
+                if (tokenizer.getNext().getType().equals("TT_LEFT_PAR")) {
+                    tokenizer.selectNext();
+                    if (tokenizer.getNext().getType().equals("TT_RIGHT_PAR")) {
+                        tokenizer.selectNext();
+                        if (tokenizer.getNext().getType().equals("TT_TYPE_ASSIGN")) {
+                            tokenizer.selectNext();
+                            if (tokenizer.getNext().getType().equals("TT_TYPE")) {
+                                String type = tokenizer.getNext().getValue();
+                                tokenizer.selectNext();
+                                if (tokenizer.getNext().getType().equals("TT_ENDLINE")) {
+                                    tokenizer.selectNext();
+
+                                    List<Node> funcContent = new ArrayList<>();
+                                    while (!tokenizer.getNext().getType().equals("TT_END")) {
+                                        funcContent.add(parseStatement());
+                                    }
+
+                                    Node[] nodes = new Node[funcContent.size()];
+
+                                    for (int i = 0; i < funcContent.size(); i++) {
+                                        nodes[i] = funcContent.get(i);
+                                    }
+
+                                    Node block = new Block("BLOCK", nodes);
+
+                                    tokenizer.selectNext();
+                                    return new FuncDec(type, new Node[]{identifier, block});
+                                } else {
+                                    throw new Exception("Unexpected token: " + tokenizer.getNext().getType());
+                                }
+                            } else {
+                                throw new Exception("Unexpected token: " + tokenizer.getNext().getType());
+                            }
+                        } else {
+                            throw new Exception("Unexpected token: " + tokenizer.getNext().getType());
+                        }
+                    } else if (tokenizer.getNext().getType().equals("TT_IDENTIFIER")) {
+                        ArrayList<Node> params = new ArrayList<>();
+
+                        params.add(parseStatement());
+                        while (tokenizer.getNext().getType().equals("TT_COMMA")) {
+                            tokenizer.selectNext();
+                            params.add(parseStatement());
+                        }
+
+                        Node[] args = new Node[params.size()];
+                        for (int i = 0; i < params.size(); i++) {
+                            args[i] = params.get(i);
+                        }
+
+                        if (tokenizer.getNext().getType().equals("TT_RIGHT_PAR")) {
+                            tokenizer.selectNext();
+                            if (tokenizer.getNext().getType().equals("TT_TYPE_ASSIGN")) {
+                                tokenizer.selectNext();
+                                if (tokenizer.getNext().getType().equals("TT_TYPE")) {
+                                    String type = tokenizer.getNext().getValue();
+                                    tokenizer.selectNext();
+                                    if (tokenizer.getNext().getType().equals("TT_ENDLINE")) {
+                                        tokenizer.selectNext();
+
+                                        List<Node> funcContent = new ArrayList<>();
+                                        while (!tokenizer.getNext().getType().equals("TT_END")) {
+                                            funcContent.add(parseStatement());
+                                        }
+
+                                        Node[] nodes = new Node[funcContent.size()];
+                                        for (int i = 0; i < funcContent.size(); i++) {
+                                            nodes[i] = funcContent.get(i);
+                                        }
+
+                                        Node block = new Block("BLOCK", nodes);
+
+                                        tokenizer.selectNext();
+
+                                        Node[] funcDec = new Node[args.length + 2];
+                                        funcDec[0] = identifier;
+                                        for (int i = 1; i <= args.length; i++) {
+                                            funcDec[i] = args[i-1];
+                                        }
+                                        funcDec[args.length+1] = block;
+
+                                        return new FuncDec(type, funcDec);
+                                    } else {
+                                        throw new Exception("Unexpected token: " + tokenizer.getNext().getType());
+                                    }
+                                } else {
+                                    throw new Exception("Unexpected token: " + tokenizer.getNext().getType());
+                                }
+                            } else {
+                                throw new Exception("Unexpected token: " + tokenizer.getNext().getType());
+                            }
+                        } else {
+                            throw new Exception("Unexpected token: " + tokenizer.getNext().getType());
+                        }
+                    } else {
+                        throw new Exception("Unexpected token: " + tokenizer.getNext().getType());
+                    }
+                } else {
+                    throw new Exception("Unexpected token: " + tokenizer.getNext().getType());
+                }
+            } else {
+                throw new Exception("Unexpected token: " + tokenizer.getNext().getType());
+            }
         } else {
             throw new Exception();
         }
@@ -230,9 +366,39 @@ public class Parser {
             tokenizer.selectNext();
             return ret;
         } else if (tokenizer.getNext().getType().equals("TT_IDENTIFIER")) {
-            ret = new Identifier(tokenizer.getNext().getValue(), new Node[]{});
+            String identifier = tokenizer.getNext().getValue();
             tokenizer.selectNext();
-            return ret;
+            if (tokenizer.getNext().getType().equals("TT_LEFT_PAR")) {
+                tokenizer.selectNext();
+                ArrayList<Node> params = new ArrayList<>();
+                if (tokenizer.getNext().getType().equals("TT_RIGHT_PAR")) {
+                    ret = new FuncCall(identifier, new Node[]{});
+                    return ret;
+                } else {
+                    params.add(parseRelExpression());
+                    while (tokenizer.getNext().getType().equals("TT_COMMA")) {
+                        tokenizer.selectNext();
+                        params.add(parseRelExpression());
+                    }
+
+                    if (tokenizer.getNext().getType().equals("TT_RIGHT_PAR")) {
+                        tokenizer.selectNext();
+
+                        Node[] args = new Node[params.size()];
+                        for (int i = 0; i < params.size(); i++) {
+                            args[i] = params.get(i);
+                        }
+
+                        ret = new FuncCall(identifier, args);
+                        return ret;
+                    } else {
+                        throw new Exception("Unexpected token: " + tokenizer.getNext().getType());
+                    }
+                }
+            } else {
+                ret = new Identifier(identifier, new Node[]{});
+                return ret;
+            }
         } else if (tokenizer.getNext().getType().equals("TT_PLUS")) {
             tokenizer.selectNext();
             return new UnOp("+", new Node[]{parseFactor()});
@@ -273,7 +439,7 @@ public class Parser {
         }
     }
 
-    public void run() throws Exception {
+    public void run(SymbolTable symbolTable) throws Exception {
         Node tree = null;
 
         tokenizer.selectNext();
@@ -284,6 +450,6 @@ public class Parser {
             }
         }
 
-        tree.Evaluate();
+        tree.Evaluate(symbolTable);
     }
 }

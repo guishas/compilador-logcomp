@@ -11,7 +11,7 @@ public class Tokenizer {
     public Tokenizer(String source) {
         this.source = source;
         this.position = 0;
-        this.reservedWords = new String[]{"println", "readline", "if", "else", "end", "while", "Int", "String"};
+        this.reservedWords = new String[]{"println", "readline", "function", "return", "if", "else", "end", "while", "Int", "String"};
     }
 
     public void selectNext() throws Exception {
@@ -47,6 +47,9 @@ public class Tokenizer {
             position++;
         } else if (source.charAt(position) == '.') {
             next = new Token("TT_CONCAT", ".");
+            position++;
+        } else if (source.charAt(position) == ',') {
+            next = new Token("TT_COMMA", ",");
             position++;
         } else if (source.charAt(position) == '(') {
             next = new Token("TT_LEFT_PAR", "(");

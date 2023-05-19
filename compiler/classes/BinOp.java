@@ -10,10 +10,10 @@ public class BinOp extends Node {
     }
 
     @Override
-    public ArrayList<String> Evaluate() throws Exception {
-        String a = children[0].Evaluate().get(1);
-        String b = children[1].Evaluate().get(1);
-        if (children[0].Evaluate().get(0).equals("string") || children[1].Evaluate().get(0).equals("string")) {
+    public ArrayList<String> Evaluate(SymbolTable symbolTable) throws Exception {
+        String a = children[0].Evaluate(symbolTable).get(1);
+        String b = children[1].Evaluate(symbolTable).get(1);
+        if (children[0].Evaluate(symbolTable).get(0).equals("string") || children[1].Evaluate(symbolTable).get(0).equals("string")) {
             if (value.equals(".")) {
                 return new ArrayList<>(Arrays.asList("string", a + b));
             } else if (value.equals("==")) {
@@ -83,10 +83,5 @@ public class BinOp extends Node {
                 throw new Exception();
             }
         }
-    }
-
-    @Override
-    public String EvaluateString() throws Exception {
-        return null;
     }
 }
