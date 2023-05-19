@@ -290,7 +290,7 @@ public class Parser {
                 throw new Exception("Unexpected token: " + tokenizer.getNext().getType());
             }
         } else {
-            throw new Exception();
+            throw new Exception("Unexpected token: " + tokenizer.getNext().getType());
         }
 
         return null;
@@ -372,6 +372,7 @@ public class Parser {
                 tokenizer.selectNext();
                 ArrayList<Node> params = new ArrayList<>();
                 if (tokenizer.getNext().getType().equals("TT_RIGHT_PAR")) {
+                    tokenizer.selectNext();
                     ret = new FuncCall(identifier, new Node[]{});
                     return ret;
                 } else {
